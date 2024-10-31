@@ -162,6 +162,7 @@ public class BST {
     private Node delete(Node x, Integer key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
+        // Searching the position of key deleted
         if (cmp < 0) {
             x.left = delete(x.left, key);
         }
@@ -169,30 +170,31 @@ public class BST {
             x.right = delete(x.right, key);
         }
         else {
-            // node with only one child or not
-            if (x.right == null) {
+            // node with no child
+            if (x.right == null && x.left == null) {
+                return x;
+            }
+            // node with only one child
+            else if (x.right == null) {
                 return x.left;
             }
-            if (x.left == null) {
+            else if (x.left == null) {
                 return x.right;            
             }
+            // node with two children.
+            else {
 
-            // node with two children: Get the successor (smallest in
-            // the right subtree
-            Node t = x;
-            x = min(t.right);
+                Node t = x; // E
+                x = min(t.right); // H
+                x.right = deleteMin(t.right); // update & delete the min node (dulplicate of min Node) of right
+                x.left = t.left;
 
-            // Delete the successor
-            x.right =  deleteMin(t.right);
-
-            // Re-link left subtree to the node which was replaced 
-            x.left = t.left;
-
+            }
         }
         return x;
     }
 
-    // Exercise 4: decending order
+    // Exercise 4: Decending order
     public void RNL () {
         RNL(this.root);
     }
@@ -213,7 +215,7 @@ public class BST {
         return search(root, key) != null;
     }
 
-    // Exercise 6: delete the max value
+    // Exercise 6: Delete the max value
     public void deleteMax () {
         deleteMax(root);
     }
@@ -226,43 +228,54 @@ public class BST {
         return x;
     }
 
-    // Exercise 7: delete a Node by using a predecessor
+    // Exercise 7: delete a Node by using a predecessor (maximum node in the left) 
     public void delete_pre (Integer key) {
-        delete_pre (root, key);
+        root = delete_pre(root, key);
     }
-
 
     private Node delete_pre (Node x, Integer key) {
         if (x == null) return null;
+
         int cmp = key.compareTo(x.key);
-        if (cmp < 0) {
-            x.left = delete_pre(x.left, key);
-        }
-        else if (cmp > 0) {
+        if (cmp > 0) {
             x.right = delete_pre(x.right, key);
         }
+        else if (cmp < 0) {
+            x.left = delete_pre(x.left, key);
+        }
         else {
-            // node with only one child or not
-            if (x.right == null) {
+            
+            if (x.right == null && x.left == null) {
+                return null;
+            }
+            else if (x.right == null) {
                 return x.left;
             }
-            if (x.left == null) {
-                return x.right;            
+            else if (x.left == null) {
+                return x.right;
             }
-
-            // node with two children: Get the successor (smallest in
-            // the right subtree
-            Node t = x;
-            x = max(t.left);
-
-            // Delete the successor
-            x.left =  deleteMax(t.left);
-
-            // Re-link left subtree to the node which was replaced 
-            x.right = t.right;
-
+            else {
+                Node t = x;
+                x = max(t.left);
+                x.left = deleteMax(t.left);
+                x.right = t.right;
+            }
         }
         return x;
     }
+    
+    // Exercise 8: find the height
+    public int height () {
+        return height(root);
+    }
 
+    private int height(Node x) {
+
+        if (root == null) return -1;
+        
+        int lefth = height(x.left);
+        int righth = height(x.right);
+
+        return lefth > righth ? lefth + 1 : righth + 1;
+    }
 }

@@ -15,6 +15,7 @@ public class Stimulate {
     }
     
     public static void main (String[] args) {
+
         BST BiTree = new BST();
 
         BiTree.insert(10);
@@ -25,22 +26,12 @@ public class Stimulate {
         BiTree.insert(5);
         BiTree.insert(9);
 
-        // BiTree.LNR();
-        // Exercise 2:
-        // createTree(new String("10 15 7 25 11"));
-        // Exercise 3:
-        // BiTree.LNR();
-        // // Exercise 4:
-        // System.out.println();
-        // BiTree.RNL();
-        // Exercise 5:
-        // System.out.println(BiTree.contains(9));
-        // Exercise 6:
-        // BiTree.deleteMax();
-        // BiTree.LNR();
-        // Exercise 7:
-        BiTree.delete_pre(10);
+        // BiTree.delete_pre(7);
         BiTree.LNR();
+        System.out.println();
+        BiTree.delete_pre(7);
+        BiTree.LNR();
+
     }
 
 }
